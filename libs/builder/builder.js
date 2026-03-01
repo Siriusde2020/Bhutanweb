@@ -1584,51 +1584,49 @@ Vvveb.Builder = {
 		let highlightDbClick = function(event) {
 			
 			if (Vvveb.Builder.isPreview == false) {
-				
-				if (!Vvveb.WysiwygEditor.isActive)  {
-					self.selectPadding = 10;
-					self.texteditEl = target = event.target;
-
-					Vvveb.WysiwygEditor.edit(self.texteditEl);
-					
-					_updateSelectBox = function(event) {
-						if (!self.texteditEl) return;
-						let pos = offset(self.selectedEl);
-
-						let SelectBox = document.getElementById("select-box");
-
-						SelectBox.style.top  = (pos.top - (self.frameDoc.scrollTop ?? 0)  - self.selectPadding) + "px";
-						SelectBox.style.left = (pos.left - (self.frameDoc.scrollLeft ?? 0) - self.selectPadding) + "px";
-						SelectBox.style.width = (self.texteditEl.offsetWidth + (self.selectPadding * 2)) + "px";
-						SelectBox.style.height = (self.texteditEl.offsetHeight + (self.selectPadding * 2)) + "px";
-						SelectBox.style.display = "block";
-					};
-					
-					//update select box when the text size is changed
-					self.texteditEl.addEventListener("blur", _updateSelectBox);	
-					self.texteditEl.addEventListener("keyup", _updateSelectBox);	
-					self.texteditEl.addEventListener("paste", _updateSelectBox);	
-					self.texteditEl.addEventListener("input", _updateSelectBox);	
-					_updateSelectBox();	
-					
-					document.getElementById("select-box").classList.add("text-edit")
-					document.getElementById("select-actions").style.display = "none";
-					document.getElementById("highlight-box").style.display = "none";
-				}
-		 	}
-		};
-		
-		self.frameBody.addEventListener("dblclick", highlightDbClick);
-		
-		let highlightClick = function(event) {
-			
-			if (Vvveb.Builder.isPreview == false){
 				if (event.target) {
-					if (Vvveb.WysiwygEditor.isActive )  {
-						if (self.texteditEl.contains(event.target)) {
+					// If text editor is active, allow dblclick inside the editing element
+					if (Vvveb.WysiwygEditor.isActive) {
+						if (self.texteditEl && self.texteditEl.contains(event.target)) {
 							return true;
 						}
 					}
+
+					// If double-clicking on the already-selected element, enter text editing mode
+					if (self.selectedEl && !Vvveb.WysiwygEditor.isActive &&
+						(self.selectedEl == event.target || self.selectedEl.contains(event.target))) {
+						self.selectPadding = 10;
+						self.texteditEl = target = event.target;
+
+						Vvveb.WysiwygEditor.edit(self.texteditEl);
+						
+						_updateSelectBox = function(event) {
+							if (!self.texteditEl) return;
+							let pos = offset(self.selectedEl);
+
+							let SelectBox = document.getElementById("select-box");
+
+							SelectBox.style.top  = (pos.top - (self.frameDoc.scrollTop ?? 0)  - self.selectPadding) + "px";
+							SelectBox.style.left = (pos.left - (self.frameDoc.scrollLeft ?? 0) - self.selectPadding) + "px";
+							SelectBox.style.width = (self.texteditEl.offsetWidth + (self.selectPadding * 2)) + "px";
+							SelectBox.style.height = (self.texteditEl.offsetHeight + (self.selectPadding * 2)) + "px";
+							SelectBox.style.display = "block";
+						};
+						
+						//update select box when the text size is changed
+						self.texteditEl.addEventListener("blur", _updateSelectBox);	
+						self.texteditEl.addEventListener("keyup", _updateSelectBox);	
+						self.texteditEl.addEventListener("paste", _updateSelectBox);	
+						self.texteditEl.addEventListener("input", _updateSelectBox);	
+						_updateSelectBox();	
+						
+						document.getElementById("select-box").classList.add("text-edit")
+						document.getElementById("select-actions").style.display = "none";
+						document.getElementById("highlight-box").style.display = "none";
+						return;
+					}
+
+					// Double-click selects the element (moved from single-click handler)
 					//if component properties is loaded in left panel tab instead of right panel show tab
 					let componentTab = document.querySelector(".component-properties-tab a");
 					if (componentTab.offsetParent) { //if properites tab is enabled/visible 
@@ -1643,7 +1641,7 @@ Vvveb.Builder = {
 
 					if (Vvveb.component.resizable) {
 						document.getElementById("select-box").classList.add("resizable");
-                      	self.resizeMode = Vvveb.component.resizeMode;
+						self.resizeMode = Vvveb.component.resizeMode;
 					} else {
 						document.getElementById("select-box").classList.remove("resizable");
 					}
@@ -1651,8 +1649,28 @@ Vvveb.Builder = {
 					document.getElementById("add-section-box").style.display = "none";
 					event.preventDefault();
 					return false;
-				}	
-			}	
+				}
+			}
+		};
+		
+		self.frameBody.addEventListener("dblclick", highlightDbClick);
+		
+		let highlightClick = function(event) {
+			
+			if (Vvveb.Builder.isPreview == false){
+				if (event.target) {
+					// If text editor is active, allow clicks inside the editing element
+					if (Vvveb.WysiwygEditor.isActive) {
+						if (self.texteditEl && self.texteditEl.contains(event.target)) {
+							return true;
+						}
+					}
+					// Single click only prevents default (no link navigation etc.)
+					// Element selection requires double-click on the canvas
+					event.preventDefault();
+					return false;
+				}
+			}
 			
 		};
 		
