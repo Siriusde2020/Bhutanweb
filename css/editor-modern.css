@@ -1,0 +1,1038 @@
+/*
+ * Modern Editor UI Overrides
+ * Inspired by Wix / Squarespace / Framer editor UX patterns
+ * Layered on top of editor.css — retains all functionality
+ */
+
+/* ============================================
+   CSS CUSTOM PROPERTIES (Design Tokens)
+   ============================================ */
+:root {
+  --editor-bg: #f8f9fb;
+  --editor-surface: #ffffff;
+  --editor-surface-hover: #f0f2f5;
+  --editor-border: #e2e5ea;
+  --editor-border-light: #edf0f3;
+  --editor-text-primary: #1a1d23;
+  --editor-text-secondary: #6b7280;
+  --editor-text-muted: #9ca3af;
+  --editor-accent: #4f46e5;
+  --editor-accent-light: rgba(79, 70, 229, 0.08);
+  --editor-accent-medium: rgba(79, 70, 229, 0.15);
+  --editor-shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+  --editor-shadow-md: 0 2px 8px rgba(0,0,0,0.08);
+  --editor-shadow-lg: 0 4px 16px rgba(0,0,0,0.12);
+  --editor-radius-sm: 6px;
+  --editor-radius-md: 8px;
+  --editor-radius-lg: 12px;
+  --editor-transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --editor-font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+}
+
+html[data-bs-theme="dark"] {
+  --editor-bg: #111318;
+  --editor-surface: #1a1d24;
+  --editor-surface-hover: #242830;
+  --editor-border: #2d3139;
+  --editor-border-light: #23272e;
+  --editor-text-primary: #e8eaed;
+  --editor-text-secondary: #9ca3af;
+  --editor-text-muted: #6b7280;
+  --editor-accent: #818cf8;
+  --editor-accent-light: rgba(129, 140, 248, 0.1);
+  --editor-accent-medium: rgba(129, 140, 248, 0.18);
+  --editor-shadow-sm: 0 1px 2px rgba(0,0,0,0.2);
+  --editor-shadow-md: 0 2px 8px rgba(0,0,0,0.3);
+  --editor-shadow-lg: 0 4px 16px rgba(0,0,0,0.4);
+}
+
+
+/* ============================================
+   GLOBAL / BODY
+   ============================================ */
+body {
+  font-family: var(--editor-font) !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--editor-bg);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0,0,0,0.15) transparent;
+}
+*::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.15);
+  border-radius: 10px;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(0,0,0,0.25);
+}
+
+
+/* ============================================
+   TOP TOOLBAR — Slim, Clean, Modern
+   ============================================ */
+#vvveb-builder #top-panel {
+  height: 48px !important;
+  background: var(--editor-surface) !important;
+  border-bottom: 1px solid var(--editor-border) !important;
+  box-shadow: var(--editor-shadow-sm);
+  display: flex !important;
+  align-items: center !important;
+  padding: 0 12px !important;
+  z-index: 100;
+  gap: 4px;
+}
+
+#vvveb-builder #top-panel #logo {
+  height: 24px;
+  margin-right: 12px;
+  opacity: 0.85;
+  transition: opacity var(--editor-transition);
+}
+#vvveb-builder #top-panel #logo:hover {
+  opacity: 1;
+}
+
+/* Toolbar button groups */
+#vvveb-builder #top-panel .btn-group {
+  gap: 1px;
+  margin: 0 4px;
+}
+
+#vvveb-builder #top-panel .btn-group .btn.btn-light {
+  border: none !important;
+  border-radius: var(--editor-radius-sm) !important;
+  padding: 6px 8px !important;
+  color: var(--editor-text-secondary) !important;
+  background: transparent !important;
+  transition: all var(--editor-transition) !important;
+  line-height: 1.4 !important;
+  position: relative;
+}
+#vvveb-builder #top-panel .btn-group .btn.btn-light:hover {
+  background: var(--editor-accent-light) !important;
+  color: var(--editor-accent) !important;
+}
+#vvveb-builder #top-panel .btn-group .btn.btn-light.active,
+#vvveb-builder #top-panel .btn-group .btn.btn-light[aria-pressed="true"] {
+  background: var(--editor-accent-light) !important;
+  color: var(--editor-accent) !important;
+}
+
+#vvveb-builder #top-panel .btn-group .btn.btn-light i {
+  font-size: 1.15rem !important;
+}
+
+/* Separator between button groups */
+#vvveb-builder #top-panel .btn-group + .btn-group::before {
+  content: '';
+  display: block;
+  width: 1px;
+  height: 20px;
+  background: var(--editor-border);
+  margin-right: 4px;
+  align-self: center;
+}
+
+/* Save button */
+#vvveb-builder #top-panel .btn-group .btn.btn-primary,
+#vvveb-builder #top-panel .save-btn {
+  border-radius: var(--editor-radius-sm) !important;
+  padding: 6px 16px !important;
+  font-weight: 500 !important;
+  font-size: 13px !important;
+  background: var(--editor-accent) !important;
+  border-color: var(--editor-accent) !important;
+  box-shadow: 0 1px 3px rgba(79, 70, 229, 0.3) !important;
+  transition: all var(--editor-transition) !important;
+  margin: 0 !important;
+}
+#vvveb-builder #top-panel .btn-group .btn.btn-primary:hover,
+#vvveb-builder #top-panel .save-btn:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 2px 8px rgba(79, 70, 229, 0.4) !important;
+  transform: translateY(-1px);
+}
+
+/* Responsive viewport buttons */
+#vvveb-builder #top-panel .responsive-btns {
+  background: var(--editor-surface-hover);
+  border-radius: var(--editor-radius-md) !important;
+  padding: 2px !important;
+}
+#vvveb-builder #top-panel .responsive-btns .btn.btn-light {
+  border-radius: var(--editor-radius-sm) !important;
+  font-size: 1.1rem !important;
+  padding: 4px 8px !important;
+}
+
+/* Zoom input */
+#vvveb-builder #top-panel .percent input {
+  border: 1px solid var(--editor-border) !important;
+  border-radius: var(--editor-radius-sm) !important;
+  font-size: 12px !important;
+  width: 52px !important;
+  padding: 3px 4px !important;
+  text-align: center;
+  background: var(--editor-surface) !important;
+  color: var(--editor-text-secondary) !important;
+}
+
+/* Dark mode toggle */
+#vvveb-builder #top-panel .btn-dark-mode {
+  border-radius: var(--editor-radius-sm) !important;
+  color: var(--editor-text-secondary) !important;
+  transition: all var(--editor-transition) !important;
+}
+#vvveb-builder #top-panel .btn-dark-mode:hover {
+  color: var(--editor-accent) !important;
+  background: var(--editor-accent-light) !important;
+}
+
+
+/* ============================================
+   LEFT PANEL — Clean, Organized
+   ============================================ */
+#vvveb-builder #left-panel {
+  top: 48px !important;
+  background: var(--editor-surface) !important;
+  border-right: 1px solid var(--editor-border) !important;
+  box-shadow: 1px 0 4px rgba(0,0,0,0.03);
+  transition: width var(--editor-transition), transform var(--editor-transition) !important;
+  z-index: 50;
+}
+
+/* File manager section */
+#vvveb-builder #left-panel #filemanager {
+  border-bottom: 1px solid var(--editor-border) !important;
+}
+#vvveb-builder #left-panel #filemanager .header {
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  color: var(--editor-text-muted) !important;
+  padding: 8px 12px !important;
+  border-bottom: 1px solid var(--editor-border-light) !important;
+}
+#vvveb-builder #left-panel #filemanager .btn-add {
+  border-radius: var(--editor-radius-sm) !important;
+  border-color: var(--editor-accent) !important;
+  color: var(--editor-accent) !important;
+  transition: all var(--editor-transition);
+}
+#vvveb-builder #left-panel #filemanager .btn-add:hover {
+  background: var(--editor-accent) !important;
+  color: white !important;
+}
+
+/* Tab navigation in left panel */
+#vvveb-builder #left-panel .nav-tabs {
+  border-bottom: 1px solid var(--editor-border) !important;
+  padding: 4px 4px 0 4px;
+  gap: 2px;
+}
+#vvveb-builder #left-panel .nav-tabs .nav-link {
+  border: none !important;
+  border-radius: var(--editor-radius-sm) var(--editor-radius-sm) 0 0 !important;
+  padding: 8px 10px !important;
+  font-size: 12px !important;
+  color: var(--editor-text-muted) !important;
+  transition: all var(--editor-transition) !important;
+  font-weight: 500;
+  min-width: unset !important;
+}
+#vvveb-builder #left-panel .nav-tabs .nav-link:hover {
+  color: var(--editor-text-primary) !important;
+  background: var(--editor-surface-hover) !important;
+}
+#vvveb-builder #left-panel .nav-tabs .nav-link.active {
+  color: var(--editor-accent) !important;
+  background: var(--editor-accent-light) !important;
+  border-bottom: 2px solid var(--editor-accent) !important;
+}
+#vvveb-builder #left-panel .nav-tabs .nav-link i {
+  font-size: 1rem !important;
+}
+
+/* Sub-tabs (Sections/Page Sections, Components/Blocks) */
+#vvveb-builder .sections-tabs .nav-link {
+  font-size: 12px !important;
+  padding: 6px 8px !important;
+}
+
+/* Search boxes */
+#vvveb-builder .search {
+  padding: 8px !important;
+  background: var(--editor-surface);
+}
+#vvveb-builder .search .form-control {
+  border: 1px solid var(--editor-border) !important;
+  border-radius: var(--editor-radius-md) !important;
+  padding: 6px 12px !important;
+  font-size: 12px !important;
+  background: var(--editor-surface) !important;
+  transition: all var(--editor-transition) !important;
+  box-shadow: none !important;
+}
+#vvveb-builder .search .form-control:focus {
+  border-color: var(--editor-accent) !important;
+  box-shadow: 0 0 0 3px var(--editor-accent-light) !important;
+}
+#vvveb-builder .search .form-control::placeholder {
+  color: var(--editor-text-muted) !important;
+  font-size: 12px;
+}
+#vvveb-builder .search .clear-backspace {
+  color: var(--editor-text-muted) !important;
+  transition: color var(--editor-transition) !important;
+}
+#vvveb-builder .search .clear-backspace:hover {
+  color: var(--editor-text-primary) !important;
+}
+#vvveb-builder .search .expand button {
+  border: none !important;
+  background: none !important;
+  color: var(--editor-text-muted) !important;
+  padding: 4px 6px !important;
+  border-radius: var(--editor-radius-sm) !important;
+  transition: all var(--editor-transition);
+}
+#vvveb-builder .search .expand button:hover {
+  background: var(--editor-accent-light) !important;
+  color: var(--editor-accent) !important;
+}
+
+/* Component / Section / Block list items */
+#vvveb-builder .components-list li,
+#vvveb-builder .blocks-list li,
+#vvveb-builder .sections-list li {
+  border-radius: var(--editor-radius-sm) !important;
+  border-color: var(--editor-border-light) !important;
+  transition: all var(--editor-transition) !important;
+  margin: 3px !important;
+}
+#vvveb-builder .components-list li:hover,
+#vvveb-builder .blocks-list li:hover,
+#vvveb-builder .sections-list li:hover {
+  border-color: var(--editor-accent) !important;
+  background: var(--editor-accent-light) !important;
+  box-shadow: var(--editor-shadow-sm) !important;
+  transform: translateY(-1px);
+}
+#vvveb-builder .components-list li a,
+#vvveb-builder .blocks-list li a,
+#vvveb-builder .sections-list li a {
+  color: var(--editor-text-primary) !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+}
+
+/* Drag elements container */
+#vvveb-builder .drag-elements-sidepane {
+  background: var(--editor-surface) !important;
+}
+
+/* Component group headers */
+#vvveb-builder .components-list > li > ol > li.header,
+#vvveb-builder label.header {
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.4px !important;
+  color: var(--editor-text-muted) !important;
+  padding: 10px 12px 6px !important;
+  border: none !important;
+  background: none !important;
+}
+
+
+/* ============================================
+   CANVAS AREA — Maximum Workspace
+   ============================================ */
+#vvveb-builder #canvas {
+  top: 48px !important;
+  background: var(--editor-bg) !important;
+  transition: all var(--editor-transition);
+}
+
+/* Iframe wrapper */
+#vvveb-builder #iframe-wrapper {
+  border-radius: 0;
+  overflow: hidden;
+}
+
+/* Loading animation */
+#vvveb-builder .loading-message {
+  background: var(--editor-surface) !important;
+}
+
+/* ---- Selection Box (selected element) ---- */
+#select-box {
+  border: 2px solid var(--editor-accent) !important;
+  border-radius: 2px !important;
+  transition: opacity 0.15s ease;
+}
+
+/* ---- Highlight Box (hover) ---- */
+#highlight-box {
+  border: 2px dashed rgba(79, 70, 229, 0.4) !important;
+  border-radius: 2px !important;
+  background: rgba(79, 70, 229, 0.02) !important;
+  transition: all 0.1s ease;
+  pointer-events: none;
+}
+
+/* Highlight name tooltip */
+#highlight-name {
+  background: var(--editor-accent) !important;
+  color: white !important;
+  border-radius: var(--editor-radius-sm) !important;
+  padding: 2px 8px !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  box-shadow: var(--editor-shadow-md) !important;
+  white-space: nowrap;
+}
+#highlight-name .type {
+  opacity: 0.7;
+  font-size: 10px;
+}
+
+/* ---- Select Actions (floating toolbar) ---- */
+#select-actions {
+  display: flex !important;
+  gap: 2px !important;
+  background: var(--editor-surface) !important;
+  border-radius: var(--editor-radius-md) !important;
+  padding: 3px 4px !important;
+  box-shadow: var(--editor-shadow-lg) !important;
+  border: 1px solid var(--editor-border) !important;
+}
+#select-actions a {
+  width: 28px !important;
+  height: 28px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: var(--editor-radius-sm) !important;
+  color: var(--editor-text-secondary) !important;
+  transition: all var(--editor-transition) !important;
+  text-decoration: none !important;
+  font-size: 14px !important;
+}
+#select-actions a:hover {
+  background: var(--editor-accent-light) !important;
+  color: var(--editor-accent) !important;
+}
+#select-actions #delete-btn:hover {
+  background: rgba(239, 68, 68, 0.1) !important;
+  color: #ef4444 !important;
+}
+
+/* Add section button */
+#add-section-btn {
+  background: var(--editor-accent) !important;
+  color: white !important;
+  border-radius: 50% !important;
+  width: 28px !important;
+  height: 28px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: 0 2px 8px rgba(79, 70, 229, 0.3) !important;
+  transition: all var(--editor-transition) !important;
+  text-decoration: none !important;
+}
+#add-section-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 3px 12px rgba(79, 70, 229, 0.4) !important;
+}
+
+/* Section actions */
+#section-actions {
+  display: flex;
+  gap: 4px;
+}
+
+/* Resize handles */
+#select-box .resize > div {
+  background: var(--editor-accent) !important;
+  border: 2px solid white !important;
+  border-radius: 50% !important;
+  box-shadow: var(--editor-shadow-sm) !important;
+  width: 10px !important;
+  height: 10px !important;
+}
+
+/* Drop highlight */
+#drop-highlight-box {
+  background: var(--editor-accent-medium) !important;
+  border: 2px dashed var(--editor-accent) !important;
+  border-radius: var(--editor-radius-sm) !important;
+}
+
+
+/* ============================================
+   WYSIWYG INLINE TEXT EDITOR
+   ============================================ */
+#wysiwyg-editor {
+  background: var(--editor-surface) !important;
+  border-radius: var(--editor-radius-md) !important;
+  box-shadow: var(--editor-shadow-lg) !important;
+  border: 1px solid var(--editor-border) !important;
+  padding: 4px 6px !important;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-wrap: wrap;
+}
+#wysiwyg-editor a,
+#wysiwyg-editor .btn {
+  border-radius: var(--editor-radius-sm) !important;
+  color: var(--editor-text-secondary) !important;
+  padding: 4px 6px !important;
+  transition: all var(--editor-transition) !important;
+}
+#wysiwyg-editor a:hover,
+#wysiwyg-editor .btn:hover {
+  background: var(--editor-accent-light) !important;
+  color: var(--editor-accent) !important;
+}
+#wysiwyg-editor .separator {
+  width: 1px !important;
+  height: 20px !important;
+  background: var(--editor-border) !important;
+  margin: 0 4px !important;
+}
+#wysiwyg-editor select {
+  border: 1px solid var(--editor-border) !important;
+  border-radius: var(--editor-radius-sm) !important;
+  font-size: 11px !important;
+  padding: 3px 6px !important;
+  background: var(--editor-surface) !important;
+  color: var(--editor-text-primary) !important;
+}
+#wysiwyg-editor input[type="color"] {
+  width: 26px !important;
+  height: 26px !important;
+  border: 2px solid var(--editor-border) !important;
+  border-radius: var(--editor-radius-sm) !important;
+  padding: 1px !important;
+  cursor: pointer;
+}
+
+
+/* ============================================
+   RIGHT PANEL — Properties & Styling
+   ============================================ */
+#vvveb-builder #right-panel {
+  top: 48px !important;
+  background: var(--editor-surface) !important;
+  border-left: 1px solid var(--editor-border) !important;
+  box-shadow: -1px 0 4px rgba(0,0,0,0.03) !important;
+  transition: width var(--editor-transition), margin-right var(--editor-transition) !important;
+  z-index: 50;
+}
+
+/* Right panel tabs */
+#vvveb-builder #right-panel .nav-tabs {
+  border-bottom: 1px solid var(--editor-border) !important;
+  padding: 4px 4px 0 4px;
+}
+#vvveb-builder #right-panel .nav-link {
+  border: none !important;
+  border-radius: var(--editor-radius-sm) var(--editor-radius-sm) 0 0 !important;
+  padding: 8px 12px !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  color: var(--editor-text-muted) !important;
+  transition: all var(--editor-transition) !important;
+}
+#vvveb-builder #right-panel .nav-link:hover {
+  color: var(--editor-text-primary) !important;
+  background: var(--editor-surface-hover) !important;
+}
+#vvveb-builder #right-panel .nav-link.active {
+  color: var(--editor-accent) !important;
+  background: var(--editor-accent-light) !important;
+  border-bottom: 2px solid var(--editor-accent) !important;
+}
+#vvveb-builder #right-panel .nav-link.active i {
+  color: var(--editor-accent) !important;
+}
+
+/* Properties form styling */
+#vvveb-builder .component-properties {
+  font-size: 12px !important;
+}
+#vvveb-builder .component-properties .mb-3.row {
+  padding: 4px 12px !important;
+  margin: 0 !important;
+  border-bottom: 1px solid var(--editor-border-light) !important;
+  transition: background var(--editor-transition);
+}
+#vvveb-builder .component-properties .mb-3.row:hover {
+  background: var(--editor-surface-hover) !important;
+}
+#vvveb-builder .component-properties .mb-3 > label {
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  color: var(--editor-text-secondary) !important;
+  padding-top: 6px !important;
+}
+#vvveb-builder .component-properties .form-control,
+#vvveb-builder .component-properties .form-select {
+  border: 1px solid var(--editor-border) !important;
+  border-radius: var(--editor-radius-sm) !important;
+  font-size: 12px !important;
+  padding: 5px 8px !important;
+  background: var(--editor-surface) !important;
+  transition: all var(--editor-transition) !important;
+  box-shadow: none !important;
+}
+#vvveb-builder .component-properties .form-control:focus,
+#vvveb-builder .component-properties .form-select:focus {
+  border-color: var(--editor-accent) !important;
+  box-shadow: 0 0 0 3px var(--editor-accent-light) !important;
+}
+
+/* Property section headers */
+#vvveb-builder .component-properties label.header {
+  background: var(--editor-surface-hover) !important;
+  border: none !important;
+  border-bottom: 1px solid var(--editor-border-light) !important;
+  padding: 8px 12px !important;
+  margin: 0 !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  color: var(--editor-text-muted) !important;
+  cursor: pointer;
+  transition: all var(--editor-transition);
+}
+#vvveb-builder .component-properties label.header:hover {
+  background: var(--editor-accent-light) !important;
+  color: var(--editor-accent) !important;
+}
+#vvveb-builder .component-properties label.header .header-arrow {
+  transition: transform var(--editor-transition) !important;
+}
+
+/* Toggle inputs */
+#vvveb-builder .component-properties .form-check-input {
+  border-radius: 10px !important;
+  width: 36px !important;
+  height: 18px !important;
+}
+#vvveb-builder .component-properties .form-check-input:checked {
+  background-color: var(--editor-accent) !important;
+  border-color: var(--editor-accent) !important;
+}
+
+/* Range slider styling */
+#vvveb-builder .component-properties input[type="range"] {
+  accent-color: var(--editor-accent);
+}
+
+/* No element selected alert */
+#vvveb-builder .component-properties .alert {
+  border-radius: var(--editor-radius-md) !important;
+  border: 1px dashed var(--editor-border) !important;
+  background: var(--editor-surface-hover) !important;
+  color: var(--editor-text-muted) !important;
+  text-align: center;
+  padding: 20px !important;
+  font-size: 13px;
+}
+#vvveb-builder .component-properties .alert strong {
+  color: var(--editor-text-secondary) !important;
+  display: block;
+  margin-bottom: 4px;
+}
+
+
+/* ============================================
+   BOTTOM PANEL — Slim Status Bar
+   ============================================ */
+#vvveb-builder #bottom-panel {
+  height: 32px !important;
+  background: var(--editor-surface) !important;
+  border-top: 1px solid var(--editor-border) !important;
+  display: flex !important;
+  align-items: center !important;
+  padding: 0 8px !important;
+  z-index: 40;
+}
+
+#vvveb-builder #bottom-panel .breadcrumb {
+  margin: 0 !important;
+  font-size: 11px !important;
+  gap: 0;
+}
+#vvveb-builder #bottom-panel .breadcrumb-item a {
+  color: var(--editor-text-muted) !important;
+  text-decoration: none !important;
+  padding: 2px 4px;
+  border-radius: 3px;
+  transition: all var(--editor-transition);
+}
+#vvveb-builder #bottom-panel .breadcrumb-item a:hover {
+  color: var(--editor-accent) !important;
+  background: var(--editor-accent-light);
+}
+#vvveb-builder #bottom-panel .breadcrumb-item.active {
+  color: var(--editor-text-primary) !important;
+  font-weight: 500;
+}
+
+#vvveb-builder #bottom-panel .btn {
+  font-size: 11px !important;
+  padding: 2px 8px !important;
+  border-radius: var(--editor-radius-sm) !important;
+  color: var(--editor-text-secondary) !important;
+  transition: all var(--editor-transition) !important;
+}
+#vvveb-builder #bottom-panel .btn:hover {
+  background: var(--editor-accent-light) !important;
+  color: var(--editor-accent) !important;
+}
+
+/* Code editor */
+#vvveb-builder #bottom-panel #vvveb-code-editor textarea {
+  font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace !important;
+  font-size: 13px !important;
+  line-height: 1.5;
+  background: var(--editor-surface) !important;
+  color: var(--editor-text-primary) !important;
+  border: none !important;
+  padding: 12px !important;
+}
+
+
+/* ============================================
+   ADD SECTION BOX (floating panel)
+   ============================================ */
+#vvveb-builder #add-section-box {
+  background: var(--editor-surface) !important;
+  border-radius: var(--editor-radius-lg) !important;
+  box-shadow: var(--editor-shadow-lg) !important;
+  border: 1px solid var(--editor-border) !important;
+  overflow: hidden;
+}
+#vvveb-builder #add-section-box .header {
+  background: var(--editor-surface) !important;
+}
+#vvveb-builder #add-section-box .nav-link {
+  border-radius: var(--editor-radius-sm) !important;
+  font-size: 12px !important;
+}
+#vvveb-builder #add-section-box #close-section-btn {
+  border-radius: var(--editor-radius-sm) !important;
+  color: var(--editor-text-muted) !important;
+  transition: all var(--editor-transition);
+}
+#vvveb-builder #add-section-box #close-section-btn:hover {
+  background: rgba(239, 68, 68, 0.1) !important;
+  color: #ef4444 !important;
+}
+
+
+/* ============================================
+   MODALS — Clean Dialogs
+   ============================================ */
+.modal-content {
+  border-radius: var(--editor-radius-lg) !important;
+  border: 1px solid var(--editor-border) !important;
+  box-shadow: var(--editor-shadow-lg) !important;
+  overflow: hidden;
+}
+.modal-header {
+  border-bottom: 1px solid var(--editor-border) !important;
+  padding: 12px 16px !important;
+  background: var(--editor-surface) !important;
+}
+.modal-title {
+  font-size: 15px !important;
+  font-weight: 600 !important;
+}
+.modal-body {
+  padding: 16px !important;
+}
+.modal-footer {
+  border-top: 1px solid var(--editor-border) !important;
+  padding: 10px 16px !important;
+}
+
+
+/* ============================================
+   SECTION LIST (page structure panel)
+   ============================================ */
+#vvveb-builder .sections-container .section-item {
+  border: 1px solid var(--editor-border-light) !important;
+  border-radius: var(--editor-radius-sm) !important;
+  margin-bottom: 4px !important;
+  transition: all var(--editor-transition);
+}
+#vvveb-builder .sections-container .section-item:hover {
+  border-color: var(--editor-accent) !important;
+  box-shadow: var(--editor-shadow-sm);
+}
+#vvveb-builder .sections-container .section-item .controls {
+  padding: 6px 8px !important;
+}
+#vvveb-builder .sections-container .section-item .controls .name {
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  color: var(--editor-text-primary) !important;
+}
+#vvveb-builder .sections-container .section-item .controls .type {
+  font-size: 10px !important;
+  color: var(--editor-text-muted) !important;
+}
+
+
+/* ============================================
+   TREE LIST (DOM navigator)
+   ============================================ */
+#vvveb-builder .tree-list {
+  font-size: 12px !important;
+}
+#vvveb-builder .tree-list li {
+  padding: 2px 0 !important;
+}
+#vvveb-builder .tree-list label {
+  padding: 3px 8px !important;
+  border-radius: var(--editor-radius-sm) !important;
+  transition: all var(--editor-transition) !important;
+  cursor: pointer;
+}
+#vvveb-builder .tree-list label:hover {
+  background: var(--editor-accent-light) !important;
+}
+#vvveb-builder .tree-list label.active {
+  background: var(--editor-accent-light) !important;
+  color: var(--editor-accent) !important;
+  font-weight: 500;
+}
+
+
+/* ============================================
+   FILE MANAGER TREE
+   ============================================ */
+#vvveb-builder #filemanager .tree li {
+  padding: 1px 0;
+}
+#vvveb-builder #filemanager .tree li a {
+  display: block;
+  padding: 4px 8px !important;
+  border-radius: var(--editor-radius-sm) !important;
+  color: var(--editor-text-primary) !important;
+  text-decoration: none !important;
+  font-size: 12px !important;
+  transition: all var(--editor-transition);
+}
+#vvveb-builder #filemanager .tree li a:hover {
+  background: var(--editor-accent-light) !important;
+  color: var(--editor-accent) !important;
+}
+#vvveb-builder #filemanager .tree li a.active {
+  background: var(--editor-accent-light) !important;
+  color: var(--editor-accent) !important;
+  font-weight: 500;
+}
+
+
+/* ============================================
+   CONFIGURATION / VARIABLES PANEL
+   ============================================ */
+#vvveb-builder #configuration .component-properties {
+  padding: 0 !important;
+}
+
+
+/* ============================================
+   TOOLTIPS
+   ============================================ */
+[title] {
+  position: relative;
+}
+
+
+/* ============================================
+   ANIMATIONS & TRANSITIONS
+   ============================================ */
+
+/* Panel toggle animations */
+#vvveb-builder.no-right-panel #right-panel {
+  transform: translateX(100%);
+  opacity: 0;
+}
+#vvveb-builder.no-left-panel #left-panel {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+/* Smooth canvas resize when panels toggle */
+#vvveb-builder #canvas {
+  transition: left var(--editor-transition), right var(--editor-transition), width var(--editor-transition) !important;
+}
+
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+@media (max-width: 1200px) {
+  #vvveb-builder #left-panel,
+  #vvveb-builder #right-panel {
+    width: 260px !important;
+  }
+}
+
+@media (max-width: 992px) {
+  #vvveb-builder #left-panel,
+  #vvveb-builder #right-panel {
+    width: 240px !important;
+  }
+  #vvveb-builder #top-panel .btn span {
+    display: none !important;
+  }
+}
+
+
+/* ============================================
+   PREVIEW MODE
+   ============================================ */
+#vvveb-builder.preview #top-panel {
+  background: rgba(0,0,0,0.8) !important;
+  backdrop-filter: blur(10px);
+}
+#vvveb-builder.preview #left-panel,
+#vvveb-builder.preview #right-panel,
+#vvveb-builder.preview #bottom-panel {
+  display: none !important;
+}
+
+
+/* ============================================
+   BLOCK PREVIEW THUMBNAILS
+   ============================================ */
+#vvveb-builder .block-preview img {
+  border-radius: var(--editor-radius-sm) !important;
+  border: 1px solid var(--editor-border) !important;
+  box-shadow: var(--editor-shadow-sm) !important;
+}
+
+
+/* ============================================
+   CONTEXT MENU (if applicable)
+   ============================================ */
+.dropdown-menu {
+  border-radius: var(--editor-radius-md) !important;
+  border: 1px solid var(--editor-border) !important;
+  box-shadow: var(--editor-shadow-lg) !important;
+  padding: 4px !important;
+  overflow: hidden;
+}
+.dropdown-item {
+  border-radius: var(--editor-radius-sm) !important;
+  padding: 6px 12px !important;
+  font-size: 13px !important;
+  transition: all var(--editor-transition) !important;
+}
+.dropdown-item:hover {
+  background: var(--editor-accent-light) !important;
+  color: var(--editor-accent) !important;
+}
+
+
+/* ============================================
+   FORM INPUTS INSIDE PROPERTIES
+   ============================================ */
+#vvveb-builder .component-properties input[type="color"] {
+  border: 2px solid var(--editor-border) !important;
+  border-radius: var(--editor-radius-sm) !important;
+  padding: 2px !important;
+  cursor: pointer;
+  transition: border-color var(--editor-transition);
+}
+#vvveb-builder .component-properties input[type="color"]:hover {
+  border-color: var(--editor-accent) !important;
+}
+
+/* Button inputs in properties */
+#vvveb-builder .component-properties .btn-group .btn {
+  font-size: 11px !important;
+  padding: 4px 8px !important;
+  border-radius: var(--editor-radius-sm) !important;
+  border-color: var(--editor-border) !important;
+  color: var(--editor-text-secondary) !important;
+  transition: all var(--editor-transition) !important;
+}
+#vvveb-builder .component-properties .btn-group .btn:hover,
+#vvveb-builder .component-properties .btn-group .btn.active {
+  background: var(--editor-accent-light) !important;
+  color: var(--editor-accent) !important;
+  border-color: var(--editor-accent) !important;
+}
+
+
+/* ============================================
+   EMPTY STATE STYLING
+   ============================================ */
+#vvveb-builder .component-properties .alert-light {
+  background: transparent !important;
+  border: 2px dashed var(--editor-border) !important;
+  border-radius: var(--editor-radius-lg) !important;
+  color: var(--editor-text-muted) !important;
+  padding: 24px 16px !important;
+  margin: 16px !important;
+  text-align: center;
+}
+
+
+/* ============================================
+   CSS VARIABLE OVERRIDES (layout dimensions)
+   ============================================ */
+:root {
+  --builder-header-top-height: 48px !important;
+  --builder-bottom-panel-height: 32px !important;
+}
+
+/* Fix canvas and panel positioning for taller toolbar */
+#vvveb-builder #left-panel,
+#vvveb-builder #right-panel {
+  top: 48px !important;
+  height: calc(100vh - 48px) !important;
+}
+
+#vvveb-builder #canvas {
+  top: 48px !important;
+  height: calc(100vh - 80px) !important; /* 48px top + 32px bottom */
+}
+
+#vvveb-builder #bottom-panel {
+  height: 32px !important;
+}
+
+/* Fix iframe height */
+#vvveb-builder #iframe-wrapper,
+#vvveb-builder #iframe1 {
+  height: calc(100vh - 80px) !important;
+}
+
+
+/* ============================================
+   UTILITY: Inter Font Import
+   ============================================ */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');

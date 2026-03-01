@@ -1503,7 +1503,7 @@ Vvveb.Builder = {
 						 width:${width}px; 
 						 height:${height}px;
 						 display:${event.target.hasAttribute('contenteditable') ? "none":"block"};
-						 border:${self.isDragging ? "1px dashed #0d6efd":""};
+						 border:${self.isDragging ? "2px dashed #4f46e5":""};
 					`);
 
 					if (height < 50) {
