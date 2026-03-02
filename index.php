@@ -1,1 +1,1 @@
-<?php header('Location: editor.html'); exit;
+<?php header('Location: site-index.html'); exit;

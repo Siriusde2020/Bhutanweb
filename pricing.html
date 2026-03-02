@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pricing - SiteForge</title>
+  <link href="css/marketing.css" rel="stylesheet">
+  <style>
+    /* Pricing page specific styles */
+    .m-pricing-save-badge {
+      display: inline-block;
+      background: rgba(16,185,129,0.1);
+      color: #059669;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 2px 10px;
+      border-radius: var(--m-radius-full);
+      margin-left: 8px;
+    }
+    .m-pricing-original {
+      text-decoration: line-through;
+      color: var(--m-text-muted);
+      font-size: 1.25rem;
+      font-weight: 500;
+      margin-right: 4px;
+    }
+
+    /* Comparison table */
+    .m-comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9375rem;
+    }
+    .m-comparison-table thead th {
+      padding: 16px 20px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--m-text);
+      border-bottom: 2px solid var(--m-border);
+    }
+    .m-comparison-table thead th:first-child {
+      text-align: left;
+    }
+    .m-comparison-table thead th.featured-col {
+      color: var(--m-primary);
+    }
+    .m-comparison-table tbody td {
+      padding: 14px 20px;
+      text-align: center;
+      color: var(--m-text-secondary);
+      border-bottom: 1px solid var(--m-border-light);
+    }
+    .m-comparison-table tbody td:first-child {
+      text-align: left;
+      font-weight: 500;
+      color: var(--m-text);
+    }
+    .m-comparison-table tbody tr:hover {
+      background: var(--m-primary-bg);
+    }
+    .m-comparison-table .check {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(16,185,129,0.1);
+    }
+    .m-comparison-table .check svg {
+      width: 14px;
+      height: 14px;
+      stroke: #10b981;
+    }
+    .m-comparison-table .dash {
+      color: var(--m-text-muted);
+      font-size: 1.25rem;
+    }
+    .m-table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--m-border);
+      border-radius: var(--m-radius-lg);
+      background: var(--m-surface);
+    }
+
+    /* Navbar active link */
+    .m-navbar-links a.active {
+      color: var(--m-primary);
+      font-weight: 600;
+    }
+
+    /* Toggle label active state */
+    .m-pricing-toggle label.active {
+      color: var(--m-text);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== NAVBAR ==================== -->
+  <nav class="m-navbar" id="navbar">
+    <div class="m-navbar-inner">
+      <a href="site-index.html" class="m-navbar-logo">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <rect width="28" height="28" rx="8" fill="#4f46e5"/>
+          <path d="M8 14l4-6 4 6-4 6-4-6z" fill="white" opacity="0.9"/>
+          <path d="M14 14l4-6 4 6-4 6-4-6z" fill="white" opacity="0.6"/>
+        </svg>
+        SiteForge
+      </a>
+
+      <ul class="m-navbar-links">
+        <li><a href="features.html">Features</a></li>
+        <li><a href="pricing.html" class="active">Pricing</a></li>
+        <li><a href="templates.html">Templates</a></li>
+      </ul>
+
+      <div class="m-navbar-actions">
+        <a href="login.html" class="m-btn m-btn-ghost">Log In</a>
+        <a href="signup.html" class="m-btn m-btn-primary">Start Free</a>
+      </div>
+
+      <button class="m-navbar-toggle" id="navToggle" aria-label="Toggle navigation">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+
+  <!-- ==================== HERO ==================== -->
+  <section class="m-hero">
+    <div class="m-container">
+      <div class="m-hero-content">
+        <span class="m-badge">Pricing</span>
+        <h1>Simple, <span class="m-gradient-text">Transparent</span> Pricing</h1>
+        <p class="m-hero-subtitle">No hidden fees, no surprises. Pick the plan that fits your needs and start building today. Upgrade, downgrade, or cancel anytime.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ==================== PRICING CARDS ==================== -->
+  <section class="m-section" id="pricing">
+    <div class="m-container">
+
+      <!-- Toggle -->
+      <div class="m-pricing-toggle">
+        <label id="labelMonthly" class="active" onclick="setPricing('monthly')">Monthly</label>
+        <div class="toggle-track" id="pricingToggle" onclick="togglePricing()">
+        </div>
+        <label id="labelYearly" onclick="setPricing('yearly')">Yearly <span class="m-pricing-save-badge">Save 20%</span></label>
+      </div>
+
+      <!-- Cards -->
+      <div class="m-pricing-grid">
+
+        <!-- Starter -->
+        <div class="m-pricing-card m-animate-fade-in">
+          <div class="m-pricing-name">Starter</div>
+          <div class="m-pricing-desc">Perfect for personal projects and getting started.</div>
+          <div class="m-pricing-price">
+            <span class="m-pricing-amount" data-monthly="$0" data-yearly="$0">$0</span>
+            <span class="m-pricing-period">/month</span>
+          </div>
+          <ul class="m-pricing-features">
+            <li>1 website</li>
+            <li>Basic templates</li>
+            <li>Community support</li>
+            <li>1 GB storage</li>
+            <li>SiteForge subdomain</li>
+          </ul>
+          <a href="signup.html" class="m-btn m-btn-secondary">Get Started Free</a>
+        </div>
+
+        <!-- Pro (Featured) -->
+        <div class="m-pricing-card featured m-animate-fade-in" style="animation-delay: 0.1s;">
+          <div class="m-pricing-name">Pro</div>
+          <div class="m-pricing-desc">For freelancers and growing businesses.</div>
+          <div class="m-pricing-price">
+            <span class="m-pricing-original" data-monthly="" data-yearly="$19" style="display:none;"></span>
+            <span class="m-pricing-amount" data-monthly="$19" data-yearly="$15">$19</span>
+            <span class="m-pricing-period">/month</span>
+          </div>
+          <ul class="m-pricing-features">
+            <li>10 websites</li>
+            <li>All templates</li>
+            <li>Priority support</li>
+            <li>Custom domains</li>
+            <li>Built-in analytics</li>
+            <li>10 GB storage</li>
+          </ul>
+          <a href="signup.html" class="m-btn m-btn-primary">Start Free Trial</a>
+        </div>
+
+        <!-- Business -->
+        <div class="m-pricing-card m-animate-fade-in" style="animation-delay: 0.2s;">
+          <div class="m-pricing-name">Business</div>
+          <div class="m-pricing-desc">For agencies and teams that need full control.</div>
+          <div class="m-pricing-price">
+            <span class="m-pricing-original" data-monthly="" data-yearly="$49" style="display:none;"></span>
+            <span class="m-pricing-amount" data-monthly="$49" data-yearly="$39">$49</span>
+            <span class="m-pricing-period">/month</span>
+          </div>
+          <ul class="m-pricing-features">
+            <li>Unlimited websites</li>
+            <li>White-label branding</li>
+            <li>Team collaboration</li>
+            <li>API access</li>
+            <li>100 GB storage</li>
+            <li>Dedicated support</li>
+          </ul>
+          <a href="signup.html" class="m-btn m-btn-secondary">Start Free Trial</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ==================== FEATURE COMPARISON TABLE ==================== -->
+  <section class="m-section m-section-alt">
+    <div class="m-container">
+      <div class="m-section-header">
+        <span class="m-badge">Compare Plans</span>
+        <h2>Feature Comparison</h2>
+        <p>See exactly what you get with each plan so you can choose the right one for your needs.</p>
+      </div>
+
+      <div class="m-table-wrap">
+        <table class="m-comparison-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Starter</th>
+              <th class="featured-col">Pro</th>
+              <th>Business</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Websites</td>
+              <td>1</td>
+              <td>10</td>
+              <td>Unlimited</td>
+            </tr>
+            <tr>
+              <td>Storage</td>
+              <td>1 GB</td>
+              <td>10 GB</td>
+              <td>100 GB</td>
+            </tr>
+            <tr>
+              <td>Basic Templates</td>
+              <td><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></td>
+              <td><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></td>
+              <td><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></td>
+            </tr>
+            <tr>
+              <td>Premium Templates</td>
+              <td><span class="dash">&mdash;</span></td>
+              <td><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></td>
+              <td><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></td>
+            </tr>
+            <tr>
+              <td>Custom Domain</td>
+              <td><span class="dash">&mdash;</span></td>
+              <td><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></td>
+              <td><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></td>
+            </tr>
+            <tr>
+              <td>Built-in Analytics</td>
+              <td><span class="dash">&mdash;</span></td>
+              <td><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></td>
+              <td><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></td>
+            </tr>
+            <tr>
+              <td>Priority Support</td>
+              <td><span class="dash">&mdash;</span></td>
+              <td><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></td>
+              <td><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></td>
+            </tr>
+            <tr>
+              <td>White-label Branding</td>
+              <td><span class="dash">&mdash;</span></td>
+              <td><span class="dash">&mdash;</span></td>
+              <td><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></td>
+            </tr>
+            <tr>
+              <td>Team Collaboration</td>
+              <td><span class="dash">&mdash;</span></td>
+              <td><span class="dash">&mdash;</span></td>
+              <td><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></td>
+            </tr>
+            <tr>
+              <td>API Access</td>
+              <td><span class="dash">&mdash;</span></td>
+              <td><span class="dash">&mdash;</span></td>
+              <td><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></td>
+            </tr>
+            <tr>
+              <td>Dedicated Support</td>
+              <td><span class="dash">&mdash;</span></td>
+              <td><span class="dash">&mdash;</span></td>
+              <td><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></td>
+            </tr>
+            <tr>
+              <td>Community Support</td>
+              <td><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></td>
+              <td><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></td>
+              <td><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></td>
+            </tr>
+            <tr>
+              <td>SSL Certificate</td>
+              <td><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></td>
+              <td><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></td>
+              <td><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ==================== FAQ ==================== -->
+  <section class="m-section" id="faq">
+    <div class="m-container">
+      <div class="m-section-header">
+        <span class="m-badge">FAQ</span>
+        <h2>Frequently Asked Questions</h2>
+        <p>Everything you need to know about our pricing and plans.</p>
+      </div>
+
+      <div class="m-faq-list">
+
+        <div class="m-faq-item">
+          <button class="m-faq-question" onclick="toggleFaq(this)">
+            Can I try SiteForge before committing to a paid plan?
+            <span class="m-faq-icon">+</span>
+          </button>
+          <div class="m-faq-answer">
+            <p>Absolutely. The Starter plan is completely free and gives you access to core features with no time limit. For Pro and Business plans, we offer a 14-day free trial so you can explore premium features before being charged.</p>
+          </div>
+        </div>
+
+        <div class="m-faq-item">
+          <button class="m-faq-question" onclick="toggleFaq(this)">
+            What is your refund policy?
+            <span class="m-faq-icon">+</span>
+          </button>
+          <div class="m-faq-answer">
+            <p>We offer a 30-day money-back guarantee on all paid plans. If you are not satisfied with SiteForge for any reason, contact our support team within 30 days of your purchase and we will issue a full refund -- no questions asked.</p>
+          </div>
+        </div>
+
+        <div class="m-faq-item">
+          <button class="m-faq-question" onclick="toggleFaq(this)">
+            Can I upgrade or downgrade my plan at any time?
+            <span class="m-faq-icon">+</span>
+          </button>
+          <div class="m-faq-answer">
+            <p>Yes. You can upgrade or downgrade your plan at any time from your account settings. When upgrading, you will be charged the prorated difference. When downgrading, the remaining balance will be credited to your next billing cycle.</p>
+          </div>
+        </div>
+
+        <div class="m-faq-item">
+          <button class="m-faq-question" onclick="toggleFaq(this)">
+            What happens to my sites if I cancel?
+            <span class="m-faq-icon">+</span>
+          </button>
+          <div class="m-faq-answer">
+            <p>If you cancel a paid plan, your account will revert to the free Starter plan at the end of your billing period. Your sites will remain live but you will lose access to premium features. We keep your data for 90 days so you can re-subscribe without losing anything.</p>
+          </div>
+        </div>
+
+        <div class="m-faq-item">
+          <button class="m-faq-question" onclick="toggleFaq(this)">
+            Do you offer discounts for nonprofits or education?
+            <span class="m-faq-icon">+</span>
+          </button>
+          <div class="m-faq-answer">
+            <p>Yes. We offer a 50% discount on Pro and Business plans for verified nonprofit organizations and educational institutions. Contact our sales team with proof of eligibility and we will apply the discount to your account.</p>
+          </div>
+        </div>
+
+        <div class="m-faq-item">
+          <button class="m-faq-question" onclick="toggleFaq(this)">
+            What payment methods do you accept?
+            <span class="m-faq-icon">+</span>
+          </button>
+          <div class="m-faq-answer">
+            <p>We accept all major credit and debit cards (Visa, MasterCard, American Express), PayPal, and bank transfers for annual Business plans. All transactions are securely processed and encrypted.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ==================== CTA ==================== -->
+  <section class="m-cta">
+    <div class="m-container" style="position: relative; z-index: 1;">
+      <h2>Ready to Build?</h2>
+      <p>Join thousands of creators and businesses using SiteForge to build stunning websites without code.</p>
+      <a href="signup.html" class="m-btn m-btn-primary m-btn-lg">Start Building for Free</a>
+    </div>
+  </section>
+
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="m-footer">
+    <div class="m-container">
+      <div class="m-footer-grid">
+
+        <div class="m-footer-brand">
+          <a href="site-index.html" class="m-navbar-logo" style="color: white; margin-bottom: 4px;">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+              <rect width="28" height="28" rx="8" fill="#818cf8"/>
+              <path d="M8 14l4-6 4 6-4 6-4-6z" fill="white" opacity="0.9"/>
+              <path d="M14 14l4-6 4 6-4 6-4-6z" fill="white" opacity="0.6"/>
+            </svg>
+            SiteForge
+          </a>
+          <p>Build beautiful, responsive websites without writing a single line of code. Trusted by creators worldwide.</p>
+        </div>
+
+        <div class="m-footer-col">
+          <h4>Product</h4>
+          <ul>
+            <li><a href="features.html">Features</a></li>
+            <li><a href="pricing.html">Pricing</a></li>
+            <li><a href="templates.html">Templates</a></li>
+            <li><a href="#">Integrations</a></li>
+          </ul>
+        </div>
+
+        <div class="m-footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="m-footer-col">
+          <h4>Support</h4>
+          <ul>
+            <li><a href="#">Help Center</a></li>
+            <li><a href="#">Documentation</a></li>
+            <li><a href="#">Status</a></li>
+            <li><a href="#">Community</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="m-footer-bottom">
+        <span>&copy; 2026 SiteForge. All rights reserved.</span>
+        <div style="display: flex; gap: 24px;">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Cookie Policy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- ==================== JAVASCRIPT ==================== -->
+  <script>
+    // ---- Pricing Toggle (Monthly / Yearly) ----
+    let isYearly = false;
+
+    function togglePricing() {
+      isYearly = !isYearly;
+      updatePricing();
+    }
+
+    function setPricing(mode) {
+      isYearly = mode === 'yearly';
+      updatePricing();
+    }
+
+    function updatePricing() {
+      const track = document.getElementById('pricingToggle');
+      const labelMonthly = document.getElementById('labelMonthly');
+      const labelYearly = document.getElementById('labelYearly');
+
+      if (isYearly) {
+        track.classList.add('active');
+        labelYearly.classList.add('active');
+        labelMonthly.classList.remove('active');
+      } else {
+        track.classList.remove('active');
+        labelMonthly.classList.add('active');
+        labelYearly.classList.remove('active');
+      }
+
+      // Update price amounts
+      const amounts = document.querySelectorAll('.m-pricing-amount');
+      amounts.forEach(function(el) {
+        el.textContent = isYearly ? el.dataset.yearly : el.dataset.monthly;
+      });
+
+      // Show/hide original prices (strikethrough) for yearly
+      const originals = document.querySelectorAll('.m-pricing-original');
+      originals.forEach(function(el) {
+        if (isYearly && el.dataset.yearly) {
+          el.textContent = el.dataset.yearly;
+          el.style.display = 'inline';
+        } else {
+          el.style.display = 'none';
+        }
+      });
+    }
+
+
+    // ---- FAQ Accordion ----
+    function toggleFaq(button) {
+      const item = button.parentElement;
+      const isOpen = item.classList.contains('open');
+
+      // Close all other items
+      document.querySelectorAll('.m-faq-item').forEach(function(faqItem) {
+        faqItem.classList.remove('open');
+      });
+
+      // Toggle current item
+      if (!isOpen) {
+        item.classList.add('open');
+      }
+    }
+
+
+    // ---- Navbar Scroll Effect ----
+    (function() {
+      const navbar = document.getElementById('navbar');
+      let ticking = false;
+
+      window.addEventListener('scroll', function() {
+        if (!ticking) {
+          window.requestAnimationFrame(function() {
+            if (window.scrollY > 20) {
+              navbar.classList.add('scrolled');
+            } else {
+              navbar.classList.remove('scrolled');
+            }
+            ticking = false;
+          });
+          ticking = true;
+        }
+      });
+    })();
+
+
+    // ---- Mobile Nav Toggle ----
+    (function() {
+      const toggle = document.getElementById('navToggle');
+      const navbar = document.getElementById('navbar');
+
+      toggle.addEventListener('click', function() {
+        navbar.classList.toggle('open');
+      });
+
+      // Close mobile nav when clicking a link
+      document.querySelectorAll('.m-navbar-links a, .m-navbar-actions a').forEach(function(link) {
+        link.addEventListener('click', function() {
+          navbar.classList.remove('open');
+        });
+      });
+    })();
+  </script>
+
+</body>
+</html>
